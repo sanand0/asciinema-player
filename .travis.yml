@@ -1,6 +1,11 @@
 language: clojure
 jdk: openjdk10
 lein: 2.8.1
+# Patch certs for OpenJDK
+# https://stackoverflow.com/a/50745344/100904
+before_install:
+  - rm "${JAVA_HOME}/lib/security/cacerts"
+  - ln -s /etc/ssl/certs/java/cacerts "${JAVA_HOME}/lib/security/cacerts"
 script:
   - lein doo phantom test once
   - lein cljsbuild once release
